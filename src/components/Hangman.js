@@ -117,7 +117,7 @@ class Hangman extends Component {
           missedLetters={this.state.missedLetters}
         />
         {this.state.won ? <Popup clicked={this.againHandler} msg={"You won!"} btnTxt={"Play again"} /> : null}
-        {!this.state.gameStarted ? <Popup clicked={this.startHandler} msg={"Are you ?"} btnTxt={"Start"} /> : null}
+        {!this.state.gameStarted ? <Popup clicked={this.startHandler} msg={"Are you ready?"} btnTxt={"Start"} /> : null}
         {this.state.showBackdrop ? (
           <Backdrop hide={this.backdropHideHandler} />
         ) : null}
