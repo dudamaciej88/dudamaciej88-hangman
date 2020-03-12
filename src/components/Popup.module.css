@@ -1,0 +1,13 @@
+.Result {
+    position: fixed;
+    bottom: 35vw;
+    right: 35vw;
+    width: 30vw;
+    height: 30vw;
+    text-align: center;
+    box-sizing: border-box;
+    border: 1px solid black;
+    background-color: #177E89;
+    z-index: 20;
+
+}
