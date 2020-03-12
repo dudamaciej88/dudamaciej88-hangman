@@ -3,7 +3,7 @@ import AnswerDisplayer from "./AnswerDisplayer";
 import Keyboard from "./Keyboard";
 import Popup from "./Popup";
 import Backdrop from "./Backdrop";
-import {animalsAxios, moviesAxios} from "../axios-quiz";
+import axios from "../axios-quiz";
 import classes from "./Hangman.module.css";
 
 class Hangman extends Component {
@@ -12,6 +12,7 @@ class Hangman extends Component {
     guessedLetters: [],
     missedLetters: [],
     animalsData: {},
+    moviesData: {},
     won: false,
     showBackdrop: true,
     gameStarted: false
@@ -20,8 +21,8 @@ class Hangman extends Component {
   componentDidMount() {
     console.log('componentDidMount')
     document.addEventListener("keydown", e => this.keyboardHandler(e));
-    const firebaseDataHandler = () => {
-      animalsAxios
+    const animalsDataHandler = () => {
+      axios
         .get("/Animals.json")
         .then(response => {
           this.setState({
@@ -31,7 +32,19 @@ class Hangman extends Component {
         })
         .catch(error => console.log(error));
     };
-    firebaseDataHandler();
+    animalsDataHandler();
+    const moviesDataHandler = () => {
+      axios
+        .get("/Movies.json")
+        .then(response => {
+          this.setState({
+            moviesData: response.data
+          });
+          
+        })
+        .catch(error => console.log(error));
+    };
+    moviesDataHandler();
     
   }
   componentWillUnmount() {
