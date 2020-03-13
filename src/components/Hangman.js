@@ -4,6 +4,7 @@ import Keyboard from "./Keyboard";
 import Popup from "./Popup";
 import Backdrop from "./Backdrop";
 import axios from "../axios-quiz";
+import HintDisplayer from "./HintDisplayer";
 import classes from "./Hangman.module.css";
 
 class Hangman extends Component {
@@ -14,9 +15,10 @@ class Hangman extends Component {
     missedLetters: [],
     animalsData: {},
     moviesData: {},
+    movies: false,
+    animals: false,
     won: false,
-    gameStarted: false,
-    
+    gameStarted: false
   };
 
   componentDidMount() {
@@ -93,31 +95,36 @@ class Hangman extends Component {
       );
       let animalRandom = animalsNames[Math.floor(Math.random() * 40)];
       let animalToAnswer = animalRandom.toLowerCase();
-      console.log(animalRandom);
       this.setState({ answer: animalToAnswer });
-      console.log(
-        this.state.animalsData["-M1lH5PO7Mv_29581dC1"][animalRandom.toString()]
-      );
+      const hint = this.state.animalsData["-M1lH5PO7Mv_29581dC1"][
+        animalRandom.toString()
+      ];
+      this.setState({ hint: hint });
+      this.setState({ animals: true });
     } else {
       const moviesNames = Object.getOwnPropertyNames(this.state.moviesData);
       let moviesRandom = moviesNames[Math.floor(Math.random() * 46)];
       let moviesToAnswer = moviesRandom.toLowerCase();
       this.setState({ answer: moviesToAnswer });
-      console.log(this.state.moviesData[moviesRandom.toString()]);
+      const hint = this.state.moviesData[moviesRandom.toString()];
+      this.setState({ hint: hint });
+      this.setState({ movies: true });
     }
   };
-
-  
 
   startHandler = categoryChoosen => {
     this.setState({ guessedLetters: [] });
     this.setState({ missedLetters: [] });
     this.setState({ won: false });
     this.setState({ gameStarted: true });
+    this.setState({ movies: false });
+    this.setState({ animals: false });
     this.setAnswer(categoryChoosen);
   };
 
   render() {
+    
+
     return (
       <div className={classes.Hangman}>
         {this.state.answer ? (
@@ -126,7 +133,8 @@ class Hangman extends Component {
               answer={this.state.answer}
               guesses={this.state.guessedLetters}
             />
-            
+            {this.state.missedLetters.length > 4 && this.state.animals ? <HintDisplayer hintTxt={"Place of living: "} hintData={this.state.hint["Place"]}/> : null}
+            {this.state.missedLetters.length > 4 && this.state.movies ? <HintDisplayer hintTxt={"Stars: "} hintData={this.state.hint["Stars"]}/> : null}
             <Keyboard
               onClick={this.letterCompareHandler}
               guessedLetters={this.state.guessedLetters}

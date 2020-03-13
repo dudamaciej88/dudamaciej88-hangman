@@ -22,7 +22,10 @@ const AnswerDisplayer = props => {
     </ul>
   ));
 
-  return <div className={classes.Displayer}>{letters}</div>;
+  return (
+  <div className={classes.Displayer}>{letters}</div>
+  
+  );
 };
 
 export default AnswerDisplayer;
