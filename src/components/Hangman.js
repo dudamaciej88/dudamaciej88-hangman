@@ -9,17 +9,18 @@ import classes from "./Hangman.module.css";
 class Hangman extends Component {
   state = {
     answer: "",
+    hint: {},
     guessedLetters: [],
     missedLetters: [],
     animalsData: {},
     moviesData: {},
     won: false,
-    showBackdrop: true,
-    gameStarted: false
+    gameStarted: false,
+    
   };
 
   componentDidMount() {
-    console.log('componentDidMount')
+    console.log("componentDidMount");
     document.addEventListener("keydown", e => this.keyboardHandler(e));
     const animalsDataHandler = () => {
       axios
@@ -28,7 +29,6 @@ class Hangman extends Component {
           this.setState({
             animalsData: response.data
           });
-          
         })
         .catch(error => console.log(error));
     };
@@ -40,18 +40,14 @@ class Hangman extends Component {
           this.setState({
             moviesData: response.data
           });
-          
         })
         .catch(error => console.log(error));
     };
     moviesDataHandler();
-    
   }
   componentWillUnmount() {
     document.removeEventListener("keydown", e => this.keyboardHandler(e));
   }
-
-
 
   keyboardHandler = e => {
     const letters = "abcdefghijklmnopqrstuvwxyz".split("");
@@ -70,7 +66,6 @@ class Hangman extends Component {
       .split("");
     if (test1.length === this.state.guessedLetters.length) {
       this.setState({ won: true });
-      this.setState({ showBackdrop: true });
     }
   };
 
@@ -84,7 +79,6 @@ class Hangman extends Component {
       if (guessedOrNotIndex > -1) {
         const guessedLetters = this.state.guessedLetters.concat(letter);
         this.setState({ guessedLetters: guessedLetters }, this.wonHandler);
-        console.log(this.state.guessedLetters);
       } else {
         const missedLetters = this.state.missedLetters.concat(letter);
         this.setState({ missedLetters: missedLetters });
@@ -92,46 +86,72 @@ class Hangman extends Component {
     }
   };
 
-  againHandler = () => {
+  setAnswer = categoryChoosen => {
+    if (categoryChoosen === "Animals") {
+      const animalsNames = Object.getOwnPropertyNames(
+        this.state.animalsData["-M1lH5PO7Mv_29581dC1"]
+      );
+      let animalRandom = animalsNames[Math.floor(Math.random() * 40)];
+      let animalToAnswer = animalRandom.toLowerCase();
+      console.log(animalRandom);
+      this.setState({ answer: animalToAnswer });
+      console.log(
+        this.state.animalsData["-M1lH5PO7Mv_29581dC1"][animalRandom.toString()]
+      );
+    } else {
+      const moviesNames = Object.getOwnPropertyNames(this.state.moviesData);
+      let moviesRandom = moviesNames[Math.floor(Math.random() * 46)];
+      let moviesToAnswer = moviesRandom.toLowerCase();
+      this.setState({ answer: moviesToAnswer });
+      console.log(this.state.moviesData[moviesRandom.toString()]);
+    }
+  };
+
+  
+
+  startHandler = categoryChoosen => {
     this.setState({ guessedLetters: [] });
     this.setState({ missedLetters: [] });
     this.setState({ won: false });
-    this.setState({ showBackdrop: false });
-    this.setAnswer();
+    this.setState({ gameStarted: true });
+    this.setAnswer(categoryChoosen);
   };
-
-  setAnswer = () => {
-    const animalsNames = Object.getOwnPropertyNames(this.state.animalsData["-M1lH5PO7Mv_29581dC1"])
-    let animalToAnswer = animalsNames[Math.floor(Math.random() * 40)].toLowerCase();
-    this.setState({answer : animalToAnswer});
-  }
-
-  backdropHideHandler = () => {
-    this.setState({ showBackdrop: false });
-  };
-
-  startHandler = () => {
-    this.setState({showBackdrop: false});
-    this.setState({gameStarted: true});
-    this.setAnswer();
-  };
-
 
   render() {
     return (
       <div className={classes.Hangman}>
-        <AnswerDisplayer
-          answer={this.state.answer}
-          guesses={this.state.guessedLetters}
-        />
-        <Keyboard
-          onClick={this.letterCompareHandler}
-          guessedLetters={this.state.guessedLetters}
-          missedLetters={this.state.missedLetters}
-        />
-        {this.state.won ? <Popup clicked={this.againHandler} msg={"You won!"} btnTxt={"Play again"} /> : null}
-        {!this.state.gameStarted ? <Popup clicked={this.startHandler} msg={"Are you ready?"} btnTxt={"Start"} /> : null}
-        {this.state.showBackdrop ? (
+        {this.state.answer ? (
+          <>
+            <AnswerDisplayer
+              answer={this.state.answer}
+              guesses={this.state.guessedLetters}
+            />
+            
+            <Keyboard
+              onClick={this.letterCompareHandler}
+              guessedLetters={this.state.guessedLetters}
+              missedLetters={this.state.missedLetters}
+            />
+          </>
+        ) : null}
+        {this.state.won ? (
+          <Popup
+            clicked1={() => this.startHandler("Animals")}
+            btnTxt1={"Animals"}
+            clicked2={() => this.startHandler("Movies")}
+            btnTxt2={"Movies"}
+          />
+        ) : null}
+        {!this.state.gameStarted ? (
+          <Popup
+            msg={"Choose category:"}
+            clicked1={() => this.startHandler("Animals")}
+            btnTxt1={"Animals"}
+            clicked2={() => this.startHandler("Movies")}
+            btnTxt2={"Movies"}
+          />
+        ) : null}
+        {this.state.won || !this.state.gameStarted ? (
           <Backdrop hide={this.backdropHideHandler} />
         ) : null}
       </div>
