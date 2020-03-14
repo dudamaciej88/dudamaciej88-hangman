@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Bar from "./Bar";
 import AnswerDisplayer from "./AnswerDisplayer";
 import Keyboard from "./Keyboard";
 import Popup from "./Popup";
@@ -122,19 +123,41 @@ class Hangman extends Component {
     this.setAnswer(categoryChoosen);
   };
 
-  render() {
-    
+  playAgainHandler = () => {
+    this.setState({ answer: "" });
+    this.setState({ hint: {} });
+    this.setState({ guessedLetters: [] });
+    this.setState({ missedLetters: [] });
+    this.setState({ movies: false });
+    this.setState({ animals: false });
+    this.setState({ won: false });
+    this.setState({ gameStarted: false });
+  };
 
+  render() {
     return (
       <div className={classes.Hangman}>
+        <Bar class={true} barTxt={"Are you ready?"} />
         {this.state.answer ? (
           <>
             <AnswerDisplayer
               answer={this.state.answer}
               guesses={this.state.guessedLetters}
             />
-            {this.state.missedLetters.length > 4 && this.state.animals ? <HintDisplayer hintTxt={"Place of living: "} hintData={this.state.hint["Place"]}/> : null}
-            {this.state.missedLetters.length > 4 && this.state.movies ? <HintDisplayer hintTxt={"Stars: "} hintData={this.state.hint["Stars"]}/> : null}
+            <div className={classes.Hint}>
+              {this.state.missedLetters.length > 4 && this.state.animals ? (
+                <HintDisplayer
+                  hintTxt={"Place of living: "}
+                  hintData={this.state.hint["Place"]}
+                />
+              ) : null}
+              {this.state.missedLetters.length > 4 && this.state.movies ? (
+                <HintDisplayer
+                  hintTxt={"Stars: "}
+                  hintData={this.state.hint["Stars"]}
+                />
+              ) : null}
+            </div>
             <Keyboard
               onClick={this.letterCompareHandler}
               guessedLetters={this.state.guessedLetters}
@@ -162,6 +185,11 @@ class Hangman extends Component {
         {this.state.won || !this.state.gameStarted ? (
           <Backdrop hide={this.backdropHideHandler} />
         ) : null}
+        <Bar
+          btnShow={true}
+          btnTxt={"Play Again"}
+          clicked={this.playAgainHandler}
+        />
       </div>
     );
   }

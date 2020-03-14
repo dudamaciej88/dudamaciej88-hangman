@@ -1,3 +1,7 @@
 .Hangman {
-    
+    height: 100vh;
+}
+
+.Hint {
+    height: 100px;
 }
