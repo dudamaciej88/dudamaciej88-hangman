@@ -1,0 +1,26 @@
+.HintDisplayer {
+    max-width: 800px;
+  margin: auto auto;
+  text-align: center;
+  animation-name: opacityGrow;
+  animation-duration: 1000ms;
+  animation-fill-mode: forwards;
+  box-sizing: border-box;
+}
+
+.HintDisplayer p {
+    padding: 42px 0;
+    
+}
+
+@keyframes opacityGrow {
+    0% {
+      opacity: 0;
+      
+    }
+    100% {
+      
+      opacity: 1;
+      
+    }
+  }

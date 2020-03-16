@@ -1,13 +1,21 @@
 .Result {
   position: fixed;
-  bottom: 35vw;
-  right: 35vw;
-  width: 30vw;
-  height: 30vw;
+  bottom: calc(50% - 100px);
+  right: calc(50% - 100px);
+  width: 200px;
+  height: 200px;
   text-align: center;
   background-color: #56ccf2;
   border: 1px solid #2d9cdb;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 8px;
   z-index: 20;
+}
+
+.Result Button {
+  margin: 10px 10px;
+}
+
+.Result p {
+  margin: 30px auto;
 }

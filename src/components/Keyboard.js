@@ -4,7 +4,7 @@ import classes from "./Keyboard.module.css";
 const letters = "abcdefghijklmnopqrstuvwxyz".split("");
 
 const Keyboard = props => (
-  <div>
+  <ul className={classes.Keyboard}>
     {letters.map(letter => (
       <li
         key={letter}
@@ -19,7 +19,7 @@ const Keyboard = props => (
         {letter}
       </li>
     ))}
-  </div>
+  </ul>
 );
 
 export default Keyboard;

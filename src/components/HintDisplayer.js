@@ -7,7 +7,7 @@ const HintDisplayer = props => {
 
 
 return (
-<div><p>{props.hintTxt}{props.hintData}</p></div>
+<div className={classes.HintDisplayer}><p>{props.hintTxt}{props.hintData}</p></div>
 )
 
 };
