@@ -5,7 +5,7 @@
   max-width: 800px;
   margin: auto auto;
   animation-name: opacityGrow;
-  animation-duration: 1000ms;
+  animation-duration: 2000ms;
   animation-fill-mode: forwards;
 }
 

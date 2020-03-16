@@ -3,7 +3,6 @@ import Bar from "./Bar";
 import AnswerDisplayer from "./AnswerDisplayer";
 import Keyboard from "./Keyboard";
 import Popup from "./Popup";
-import Button from "./Button";
 import Backdrop from "./Backdrop";
 import axios from "../axios-quiz";
 import HintDisplayer from "./HintDisplayer";
@@ -138,7 +137,18 @@ class Hangman extends Component {
   render() {
     return (
       <div className={classes.Hangman}>
-        {this.state.gameStarted ? <Bar class={true} barTxt={this.state.animals ? "Animal name:" : this.state.movies ? "Movie title:" : null} /> : null}
+        {this.state.gameStarted ? (
+          <Bar
+            class={true}
+            barTxt={
+              this.state.animals
+                ? "Animal name:"
+                : this.state.movies
+                ? "Movie title:"
+                : null
+            }
+          />
+        ) : null}
         {this.state.answer ? (
           <>
             <AnswerDisplayer
@@ -187,7 +197,13 @@ class Hangman extends Component {
         {this.state.won || !this.state.gameStarted ? (
           <Backdrop hide={this.backdropHideHandler} />
         ) : null}
-        {this.state.gameStarted ? <Bar btn={true} clicked={this.playAgainHandler} btnTxt={"Play Again"}/> : null}
+        {this.state.gameStarted ? (
+          <Bar
+            btn={true}
+            clicked={this.playAgainHandler}
+            btnTxt={"Play Again"}
+          />
+        ) : null}
       </div>
     );
   }
