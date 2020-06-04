@@ -1,3 +1,5 @@
+LIVE DEMO: https://dudamaciej88.github.io/dudamaciej88-hangman/build/index.html
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
